@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
+import { CredentialsDTO } from '../models/credentials.dto';
 
 @Component({
   selector: 'app-root',
@@ -20,14 +21,9 @@ import { UserData } from './providers/user-data';
 export class AppComponent implements OnInit {
   appPages = [
     {
-      title: 'Schedule',
-      url: '/app/tabs/schedule',
+      title: 'Games',
+      url: '/app/tabs/games',
       icon: 'calendar'
-    },
-    {
-      title: 'Speakers',
-      url: '/app/tabs/speakers',
-      icon: 'people'
     },
     {
       title: 'Map',
@@ -117,7 +113,7 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/schedule');
+      return this.router.navigateByUrl('/app/tabs/games');
     });
   }
 

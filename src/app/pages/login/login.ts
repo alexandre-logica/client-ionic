@@ -6,6 +6,8 @@ import { UserData } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
 import { MenuController } from '@ionic/angular';
+import { CredentialsDTO } from '../../../models/credentials.dto';
+import { AuthService } from '../../../services/auth.service';
 
 
 
@@ -15,21 +17,31 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  login: UserOptions = { username: '', password: '' };
+  //login: UserOptions = { username: '', password: '' };
   submitted = false;
+
+  creds : CredentialsDTO = {
+    email: "",
+    password: ""
+  };
 
   constructor(
     public userData: UserData,
     public router: Router,
-    public menu: MenuController
+    public menu: MenuController,
+    public auth: AuthService
   ) { }
 
   onLogin(form: NgForm) {
-    this.submitted = true;
+    //this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login.username);
-      this.router.navigateByUrl('/app/tabs/schedule');
+      this.userData.login(this.creds.email);
+      this.auth.authenticate(this.creds)
+        .subscribe(response => {
+          console.log(response.headers.get('Authorization'));
+        })
+      this.router.navigateByUrl('/games');
     }
   }
 

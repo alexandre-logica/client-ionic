@@ -12,6 +12,9 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
+import { GamesService } from '../services/domain/games.service';
+import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
+import { AuthService } from '../services/auth.service';
 
 @NgModule({
   imports: [
@@ -26,7 +29,14 @@ import { FormsModule } from '@angular/forms';
     })
   ],
   declarations: [AppComponent],
-  providers: [InAppBrowser, SplashScreen, StatusBar],
+  providers: [
+    InAppBrowser,
+    SplashScreen,
+    StatusBar,
+    GamesService,
+    ErrorInterceptorProvider,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

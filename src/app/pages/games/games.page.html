@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Games</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item button *ngFor="let item of items">
+      <ion-thumbnail item-start>
+        <img src="{{bucketUrl}}/game{{item.id}}.jpg">
+      </ion-thumbnail>
+      <h2> {{ item.name }} </h2>
+    </ion-item>
+  </ion-list>
+</ion-content>
