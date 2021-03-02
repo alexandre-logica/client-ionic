@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
 import { GamesService } from '../services/domain/games.service';
 import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
 import { AuthService } from '../services/auth.service';
-import { StorageService } from '../services/storage.service';
 
 @NgModule({
   imports: [
@@ -36,8 +35,7 @@ import { StorageService } from '../services/storage.service';
     StatusBar,
     GamesService,
     ErrorInterceptorProvider,
-    AuthService,
-    StorageService
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

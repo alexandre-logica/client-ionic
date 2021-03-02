@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { STORAGE_KEYS } from '../../config/storage_keys.config';
+import { LocalUser } from '../../models/local_user';
 
 
 @Injectable({
@@ -29,36 +31,47 @@ export class UserData {
     }
   }
 
-  login(username: string): Promise<any> {
+/*   login(email: string): Promise<any> {
     return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
+      this.setEmail(email);
       return window.dispatchEvent(new CustomEvent('user:login'));
     });
-  }
+  } */
 
-  signup(username: string): Promise<any> {
+/*   signup(email: string): Promise<any> {
     return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
+      this.setEmail(email);
       return window.dispatchEvent(new CustomEvent('user:signup'));
     });
-  }
+  } */
 
   logout(): Promise<any> {
-    return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-      return this.storage.remove('username');
+    return this.storage.remove(STORAGE_KEYS.localUser).then(() => {
     }).then(() => {
       window.dispatchEvent(new CustomEvent('user:logout'));
     });
   }
 
-  setUsername(username: string): Promise<any> {
-    return this.storage.set('username', username);
+  getEmail(): Promise<string> {
+    return this.storage.get(STORAGE_KEYS.localUser).then((value) => {
+      let user: LocalUser = JSON.parse(value);
+      return user.email;
+    });
   }
 
-  getUsername(): Promise<string> {
-    return this.storage.get('username').then((value) => {
-      return value;
+  getLocalUser() : Promise<LocalUser> {
+    return  this.storage.get(STORAGE_KEYS.localUser).then((value) => {
+      return JSON.parse(value);
     });
+  }
+
+  setLocalUser(obj : LocalUser){
+      if(obj == null) {
+        this.storage.remove(STORAGE_KEYS.localUser);
+      }
+      else {
+        this.storage.set(STORAGE_KEYS.localUser, JSON.stringify(obj));
+      }
   }
 
   isLoggedIn(): Promise<boolean> {

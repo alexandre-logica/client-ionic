@@ -10,7 +10,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
-import { CredentialsDTO } from '../models/credentials.dto';
 
 @Component({
   selector: 'app-root',
@@ -87,12 +86,14 @@ export class AppComponent implements OnInit {
 
   checkLoginStatus() {
     return this.userData.isLoggedIn().then(loggedIn => {
+      console.log('verificou login, status: logado')
       return this.updateLoggedInStatus(loggedIn);
     });
   }
 
   updateLoggedInStatus(loggedIn: boolean) {
     setTimeout(() => {
+      console.log('verificou login, loggedIn: ', loggedIn)
       this.loggedIn = loggedIn;
     }, 300);
   }
@@ -113,7 +114,7 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/games');
+      return this.router.navigateByUrl('login');
     });
   }
 

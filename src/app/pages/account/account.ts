@@ -1,8 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AlertController } from '@ionic/angular';
-
 import { UserData } from '../../providers/user-data';
 
 
@@ -12,7 +10,7 @@ import { UserData } from '../../providers/user-data';
   styleUrls: ['./account.scss'],
 })
 export class AccountPage implements AfterViewInit {
-  username: string;
+  email: string;
 
   constructor(
     public alertCtrl: AlertController,
@@ -21,7 +19,8 @@ export class AccountPage implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    this.getUsername();
+    console.log('ngAfterViewInit')
+    this.getEmail();
   }
 
   updatePicture() {
@@ -39,26 +38,27 @@ export class AccountPage implements AfterViewInit {
         {
           text: 'Ok',
           handler: (data: any) => {
-            this.userData.setUsername(data.username);
-            this.getUsername();
+            this.email = data.email;
+            //this.userData.setEmail(data.email);
+            //this.getEmail();
           }
         }
       ],
       inputs: [
         {
           type: 'text',
-          name: 'username',
-          value: this.username,
-          placeholder: 'username'
+          name: 'email',
+          value: this.email,
+          placeholder: 'email'
         }
       ]
     });
     await alert.present();
   }
 
-  getUsername() {
-    this.userData.getUsername().then((username) => {
-      this.username = username;
+  getEmail() {
+    this.userData.getEmail().then((email) => {
+      this.email = email;
     });
   }
 

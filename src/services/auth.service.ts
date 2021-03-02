@@ -1,16 +1,20 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { UserData } from "../app/providers/user-data";
 import { API_CONFIG } from "../config/api.config";
 import { CredentialsDTO } from "../models/credentials.dto";
 import { LocalUser } from "../models/local_user";
-import { StorageService } from "./storage.service";
 
 
 @Injectable()
 export class AuthService {
 
-    constructor(public http: HttpClient, public storage: StorageService, public jwtHelper: JwtHelperService){}
+    jwtHelper: JwtHelperService = new JwtHelperService();
+
+    constructor(
+        public http: HttpClient,
+        public userData: UserData){}
 
     authenticate(creds : CredentialsDTO){
         return this.http.post(
@@ -28,10 +32,10 @@ export class AuthService {
             token: token,
             email: this.jwtHelper.decodeToken(token).sub
         };
-        this.storage.setLocalUser(user);
+        this.userData.setLocalUser(user);
     }
 
     logout() {
-        this.storage.setLocalUser(null);
+        this.userData.setLocalUser(null);
     }
 }

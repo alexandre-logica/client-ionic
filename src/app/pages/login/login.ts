@@ -4,13 +4,9 @@ import { Router } from '@angular/router';
 
 import { UserData } from '../../providers/user-data';
 
-import { UserOptions } from '../../interfaces/user-options';
 import { MenuController } from '@ionic/angular';
 import { CredentialsDTO } from '../../../models/credentials.dto';
 import { AuthService } from '../../../services/auth.service';
-
-
-
 
 @Component({
   selector: 'page-login',
@@ -18,7 +14,6 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  //login: UserOptions = { username: '', password: '' };
   submitted = false;
 
   creds : CredentialsDTO = {
@@ -34,8 +29,7 @@ export class LoginPage {
   ) { }
 
   onLogin(form: NgForm) {
-    //this.submitted = true;
-
+    this.submitted = true;
     if (form.valid) {
       //this.userData.login(this.creds.email);
       this.auth.authenticate(this.creds)
