@@ -11,6 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 
 
 
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -36,12 +37,14 @@ export class LoginPage {
     //this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.creds.email);
+      //this.userData.login(this.creds.email);
       this.auth.authenticate(this.creds)
         .subscribe(response => {
-          console.log(response.headers.get('Authorization'));
-        })
-      this.router.navigateByUrl('/games');
+          this.auth.successfulLogin(response.headers.get('Authorization'));
+          this.router.navigateByUrl('/games');
+        },
+        error => {});
+        
     }
   }
 
