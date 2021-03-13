@@ -11,10 +11,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { GamesService } from '../services/domain/games.service';
 import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
 import { AuthService } from '../services/auth.service';
+import { ClientService } from '../services/domain/client.service';
+import { StorageService } from '../services/storage.service';
+
 
 @NgModule({
   imports: [
@@ -22,6 +25,7 @@ import { AuthService } from '../services/auth.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -35,7 +39,9 @@ import { AuthService } from '../services/auth.service';
     StatusBar,
     GamesService,
     ErrorInterceptorProvider,
-    AuthService
+    AuthService,
+    ClientService,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })

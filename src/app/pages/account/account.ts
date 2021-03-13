@@ -1,7 +1,11 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { UserData } from '../../providers/user-data';
+import { API_CONFIG } from '../../../config/api.config';
+import { ClientDTO } from '../../../models/client.dto';
+import { LocalUser } from '../../../models/local_user';
+import { ClientService } from '../../../services/domain/client.service';
+import { StorageService } from '../../../services/storage.service';
 
 
 @Component({
@@ -10,16 +14,18 @@ import { UserData } from '../../providers/user-data';
   styleUrls: ['./account.scss'],
 })
 export class AccountPage implements AfterViewInit {
-  email: string;
+  
+  client : ClientDTO;
+  email : String;
 
   constructor(
     public alertCtrl: AlertController,
     public router: Router,
-    public userData: UserData
+    public storageService : StorageService,
+    public clientService : ClientService
   ) { }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit')
     this.getEmail();
   }
 
@@ -38,9 +44,10 @@ export class AccountPage implements AfterViewInit {
         {
           text: 'Ok',
           handler: (data: any) => {
-            this.email = data.email;
-            //this.userData.setEmail(data.email);
-            //this.getEmail();
+            this.client.email = data.email;
+            console.log('changeUsername');
+            console.log(data.email);
+            this.getEmail();
           }
         }
       ],
@@ -57,9 +64,23 @@ export class AccountPage implements AfterViewInit {
   }
 
   getEmail() {
-    this.userData.getEmail().then((email) => {
-      this.email = email;
-    });
+    let user : LocalUser = this.storageService.getLocalUser();
+      this.clientService.findByEmail(user.email)
+        .subscribe(response => {
+          console.log(this.client);
+          this.client = response;
+          this.email = this.client.email;
+          this.getImageIfExists();
+        },
+        error => {});
+  }
+
+  getImageIfExists(){
+    this.clientService.getImageFromBucket(this.client.id)
+      .subscribe(response => {
+        this.client.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.client.id}.jpg`;
+      },
+      error => {});
   }
 
   changePassword() {
@@ -67,7 +88,7 @@ export class AccountPage implements AfterViewInit {
   }
 
   logout() {
-    this.userData.logout();
+    this.storageService.logout();
     this.router.navigateByUrl('/login');
   }
 

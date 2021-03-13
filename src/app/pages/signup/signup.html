@@ -1,24 +1,79 @@
-<ion-content>
-  <div class="signup-logo">
-    <img src="assets/img/appicon.svg" alt="Ionic Logo">
-  </div>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
   <form #signupForm="ngForm" novalidate>
     <ion-list lines="none">
+
       <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
-        <ion-input [(ngModel)]="signup.email" name="email" type="text" #username="ngModel" required>
+        <ion-label position="stacked" color="primary">Email</ion-label>
+        <ion-input [(ngModel)]="client.email" name="email" type="text" #email="ngModel" required (ionBlur)="validateEmail($event)">
         </ion-input>
       </ion-item>
       <ion-text color="danger">
-        <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
-          Username is required
+        <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
+          Email is required
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Name</ion-label>
+        <ion-input [(ngModel)]="client.name" name="firstName" type="text" #name="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="name.valid || submitted == false" class="ion-padding-start">
+          Name is required
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">YYYY/MM/DD</ion-label>
+        <ion-datetime [(ngModel)]="client.birthday" name="birthday" displayFormat="YYYY/MM/DD" min="1900-01-01"
+                      max="2016-12-31" #birthday="ngModel" required>
+        </ion-datetime>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="birthday.valid || submitted == false" class="ion-padding-start">
+          Birthday is required
+        </p>
+      </ion-text>
+
+      <ion-radio-group name="gender" [(ngModel)]="client.gender" #gender="ngModel" required>
+        <ion-item>
+          <ion-label position="stacked" color="primary">Gender</ion-label>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary">Male</ion-label>
+          <ion-radio slot="start" value="M"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary">Female</ion-label>
+          <ion-radio slot="start" value="F"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary">Other</ion-label>
+          <ion-radio slot="start" value="O"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+      <ion-text color="danger">
+        <p [hidden]="gender.valid || submitted == false" class="ion-padding-start">
+          Gender is required
         </p>
       </ion-text>
 
       <ion-item>
         <ion-label position="stacked" color="primary">Password</ion-label>
-        <ion-input [(ngModel)]="signup.password" name="password" type="password" #password="ngModel" required>
+        <ion-input [(ngModel)]="client.password" name="password" type="password" #password="ngModel" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">

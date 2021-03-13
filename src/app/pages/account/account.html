@@ -9,7 +9,7 @@
 
 <ion-content>
   <div *ngIf="email" class="ion-padding-top ion-text-center">
-    <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
+    <img [src]="client?.imageUrl || 'https://www.gravatar.com/avatar?d=mm&s=140'" alt="avatar">
     <h2>{{email}}</h2>
 
     <ion-list inset>

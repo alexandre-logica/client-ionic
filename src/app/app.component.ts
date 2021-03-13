@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -44,10 +45,10 @@ export class AppComponent implements OnInit {
     private router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: Storage,
-    private userData: UserData,
+    private storageService: StorageService,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
+    private userData: UserData
   ) {
     this.initializeApp();
   }
@@ -113,14 +114,13 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.userData.logout().then(() => {
-      return this.router.navigateByUrl('login');
-    });
+    this.storageService.logout();
+    this.router.navigateByUrl('login');
   }
 
   openTutorial() {
     this.menu.enable(false);
-    this.storage.set('ion_did_tutorial', false);
+    //this.storage.set('ion_did_tutorial', false);
     this.router.navigateByUrl('/login');
   }
 }

@@ -47,16 +47,7 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-/*     this.storage.get('ion_did_tutorial').then(res => {
-      if (res === true) {
-        this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
-      }
-    }); */
     this.menu.enable(false);
   }
 
-  ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
-  }
 }
