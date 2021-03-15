@@ -63,6 +63,24 @@ export class AccountPage implements AfterViewInit {
     await alert.present();
   }
 
+  async accountDeletedAlert() {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: '',
+      message: 'Account deleted.',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.logout();
+          }
+        }]
+    });
+
+    await alert.present();
+  }
+
   getEmail() {
     let user : LocalUser = this.storageService.getLocalUser();
       this.clientService.findByEmail(user.email)
@@ -94,5 +112,13 @@ export class AccountPage implements AfterViewInit {
 
   support() {
     this.router.navigateByUrl('/support');
+  }
+
+  delete(){
+    this.clientService.inactivate(this.client)
+    .then((response) => {
+      this.accountDeletedAlert();
+    })
+    .catch((error) => {});
   }
 }

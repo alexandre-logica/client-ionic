@@ -41,4 +41,17 @@ export class ClientService {
             }
         );
     }
+
+    inactivate(obj : ClientDTO){
+        let url = API_CONFIG.baseUrl + '/clients/inactivate/' + obj.id;
+        let token = this.storage.getLocalUser().token;
+        const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              Authorization: 'Bearer ' + token
+            })
+          };
+        new HttpHeaders({'Authorization': 'Bearer ' + token});
+        return this.http.put(url, obj, httpOptions).toPromise();
+    }
 }
