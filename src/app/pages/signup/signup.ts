@@ -19,7 +19,8 @@ export class SignupPage {
           birthday : '',
           gender : '',
           email : '',
-          password : ''
+          password : '',
+          username : 'user'
   }
 
   submitted = false;

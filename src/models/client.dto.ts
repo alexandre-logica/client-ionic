@@ -7,4 +7,5 @@ export interface ClientDTO {
     email : string;
     password : string;
     imageUrl? : string;
+    username? : string;
 }

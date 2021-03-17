@@ -16,7 +16,7 @@ import { StorageService } from '../../../services/storage.service';
 export class AccountPage implements AfterViewInit {
   
   client : ClientDTO;
-  email : String;
+  username : String;
 
   constructor(
     public alertCtrl: AlertController,
@@ -44,19 +44,19 @@ export class AccountPage implements AfterViewInit {
         {
           text: 'Ok',
           handler: (data: any) => {
-            this.client.email = data.email;
+            this.client.username = data.username;
             console.log('changeUsername');
-            console.log(data.email);
-            this.getEmail();
+            console.log(data.username);
+            this.updateUsername();
           }
         }
       ],
       inputs: [
         {
           type: 'text',
-          name: 'email',
-          value: this.email,
-          placeholder: 'email'
+          name: 'username',
+          value: this.client.username,
+          placeholder: 'username'
         }
       ]
     });
@@ -81,13 +81,25 @@ export class AccountPage implements AfterViewInit {
     await alert.present();
   }
 
+  async userNameUpdatedAlert() {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: '',
+      message: 'Username update.',
+      buttons: ['Ok']
+    });
+
+    await alert.present();
+  }
+
   getEmail() {
     let user : LocalUser = this.storageService.getLocalUser();
       this.clientService.findByEmail(user.email)
         .subscribe(response => {
           console.log(this.client);
           this.client = response;
-          this.email = this.client.email;
+          this.username = this.client.username;
           this.getImageIfExists();
         },
         error => {});
@@ -103,6 +115,15 @@ export class AccountPage implements AfterViewInit {
 
   changePassword() {
     console.log('Clicked to change password');
+  }
+
+  updateUsername(){
+    this.clientService.update(this.client)
+    .then((response) => {
+      this.username = this.client.username;
+      //this.userNameUpdatedAlert();
+    })
+    .catch((error) => {});
   }
 
   logout() {
