@@ -12,23 +12,15 @@ export class ClientService {
     }
 
     findByEmail(email: string) : Observable<ClientDTO> {
-        let token = this.storage.getLocalUser().token;
-        let authHeader = new HttpHeaders({'Authorization': 'Bearer ' + token});
-
-        return this.http.get<ClientDTO>(
-            `${API_CONFIG.baseUrl}/clients/email?value=${email}`,
-            {'headers': authHeader});
+        return this.http.get<ClientDTO>(`${API_CONFIG.baseUrl}/clients/email?value=${email}`);
     }
 
     findEmail(email: string) : Observable<Boolean> {
-
-        return this.http.get<Boolean>(
-            `${API_CONFIG.baseUrl}/clients/validate/email?value=${email}`);
+        return this.http.get<Boolean>(`${API_CONFIG.baseUrl}/clients/validate/email?value=${email}`);
     }
 
     getImageFromBucket(id : string) : Observable<any> {
-        let url = `${API_CONFIG.bucketBaseUrl}/cp${id}.jpg`
-        return this.http.get(url, {responseType : 'blob'});
+        return this.http.get(`${API_CONFIG.bucketBaseUrl}/cp${id}.jpg`, {responseType : 'blob'});
     }
 
     insert(obj : ClientDTO){
@@ -44,25 +36,11 @@ export class ClientService {
 
     update(obj : ClientDTO){
         let url = API_CONFIG.baseUrl + '/clients/' + obj.id;
-        let token = this.storage.getLocalUser().token;
-        const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type':  'application/json',
-              Authorization: 'Bearer ' + token
-            })
-          };
-        return this.http.put(url, obj, httpOptions).toPromise();
+        return this.http.put(url, obj).toPromise();
     }
 
     inactivate(obj : ClientDTO){
         let url = API_CONFIG.baseUrl + '/clients/inactivate/' + obj.id;
-        let token = this.storage.getLocalUser().token;
-        const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type':  'application/json',
-              Authorization: 'Bearer ' + token
-            })
-          };
-        return this.http.put(url, obj, httpOptions).toPromise();
+        return this.http.put(url, obj).toPromise();
     }
 }

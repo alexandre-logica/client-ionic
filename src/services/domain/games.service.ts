@@ -11,6 +11,7 @@ export class GamesService {
     }
 
     findAll() : Observable<GamesDTO[]> {
-        return this.http.get<GamesDTO[]>(`${API_CONFIG.baseUrl}/games`);
+        return this.http.get<GamesDTO[]>(
+            `${API_CONFIG.baseUrl}/games`);
     }
 }

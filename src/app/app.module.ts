@@ -17,6 +17,7 @@ import { ErrorInterceptorProvider } from '../interceptors/error-interceptor';
 import { AuthService } from '../services/auth.service';
 import { ClientService } from '../services/domain/client.service';
 import { StorageService } from '../services/storage.service';
+import { AuthInterceptorProvider } from '../interceptors/auth-interceptor';
 
 
 @NgModule({
@@ -37,8 +38,9 @@ import { StorageService } from '../services/storage.service';
     InAppBrowser,
     SplashScreen,
     StatusBar,
-    GamesService,
+    AuthInterceptorProvider,
     ErrorInterceptorProvider,
+    GamesService,
     AuthService,
     ClientService,
     StorageService

@@ -95,14 +95,24 @@ export class AccountPage implements AfterViewInit {
 
   getEmail() {
     let user : LocalUser = this.storageService.getLocalUser();
+    if(user && user.email){
       this.clientService.findByEmail(user.email)
-        .subscribe(response => {
-          console.log(this.client);
-          this.client = response;
-          this.username = this.client.username;
-          this.getImageIfExists();
-        },
-        error => {});
+      .subscribe(response => {
+        this.client = response;
+        console.log(this.client);
+        this.username = this.client.username;
+        this.getImageIfExists();
+      },
+      error => {
+        if(error.status == 403){
+          this.router.navigateByUrl('/login');
+        }
+      });
+    }
+    else {
+      this.router.navigateByUrl('/login');
+    }
+
   }
 
   getImageIfExists(){

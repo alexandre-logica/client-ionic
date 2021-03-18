@@ -15,8 +15,9 @@ export class GamesPage implements OnInit {
   
   items: GamesDTO[];
 
-  constructor(public gamesService: GamesService,
-              public menu : MenuController) { }
+  constructor(
+    public gamesService: GamesService,
+    public menu : MenuController) { }
 
   ngOnInit() {
     this.gamesService.findAll()

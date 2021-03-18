@@ -17,8 +17,8 @@ export class LoginPage {
   submitted = false;
 
   creds : CredentialsDTO = {
-    email: "",
-    password: ""
+    email: "alexandre.logica@gmail.com",
+    password: "1234"
   };
 
   constructor(
@@ -31,14 +31,12 @@ export class LoginPage {
   onLogin(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
-      //this.userData.login(this.creds.email);
       this.auth.authenticate(this.creds)
         .subscribe(response => {
           this.auth.successfulLogin(response.headers.get('Authorization'));
           this.router.navigateByUrl('/games');
         },
         error => {});
-        
     }
   }
 
@@ -50,4 +48,12 @@ export class LoginPage {
     this.menu.enable(false);
   }
 
+  ionViewDidEnter(){
+      this.auth.refreshToken()
+        .subscribe(response => {
+          this.auth.successfulLogin(response.headers.get('Authorization'));
+          this.router.navigateByUrl('/games');
+        },
+        error => {});
+  }
 }
